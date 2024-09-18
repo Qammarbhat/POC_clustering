@@ -4,11 +4,12 @@ from nltk.tokenize import sent_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from sklearn.decomposition import LatentDirichletAllocation as LDA
-
 from PyPDF2 import PdfReader
 import pandas as pd
 import numpy as np
 from textblob import TextBlob
+from sklearn.metrics.pairwise import cosine_similarity
+
 
 def analyze_sentiment(text):
     blob = TextBlob(text)
@@ -24,7 +25,6 @@ def get_cluster_sentiments(doc_content_list, clusters, n_clusters):
     return cluster_sentiments
 
 nltk.download('punkt')
-
 # Helper function to read PDF file
 def read_pdf(file):
     reader = PdfReader(file)
@@ -41,8 +41,6 @@ def split_document(doc_content):
         sentences.extend(sent_tokenize(paragraph))
     sentences = [sentence for sentence in sentences if len(sentence.strip()) > 2]
     return sentences
-
-from sklearn.metrics.pairwise import cosine_similarity
 
 def remove_duplicate_topics(topics, feature_names):
     unique_topics = []
